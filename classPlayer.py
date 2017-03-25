@@ -20,5 +20,5 @@ class Player:
 
         whereToMove = self.strategy(self.board)
 
-        #Updating the board
+        # Updating the board
         self.board.update(whereToMove, self.tokenColor)

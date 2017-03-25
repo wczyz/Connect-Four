@@ -9,4 +9,4 @@ Here are the semantics for writing the code in this repo (Connect-Four)
  > Constant names use UPPERCASE, e.g. NUMBER_OF_ROWS
  
  > File names are created as follows: typeName.extension, e.g. classBoard.py
-	EXCEPTION: main.py
+	EXCEPTION: main.py and all the namespaces
