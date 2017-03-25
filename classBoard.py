@@ -2,15 +2,18 @@ from graphics import *
 
 class Board:
 
-    def __init__(self, ROWS, COLUMNS):
+    def __init__(self, rows, columns):
         #MARK: variables
-        boxSize = 71
-        backGroundColor = "white"
-        windowWeight = ROWS*boxSize+ROWS-1
-        windowHeight = COLUMNS*boxSize+COLUMNS-1
+        
+        self.boxSize = 71
+        self.backgroundColor = "white"
+        self.playerOneColor = "red"
+        self.playerTwoColor = "blue"
+        self.windowWeight = rows*boxSize + rows - 1
+        self.windowHeight = columns*boxSize + columns - 1
 
         #MARK: build window
-        window = GraphWin("Connect Four", windowWeight, windowHeight)
+        self.window = GraphWin("Connect Four", windowWeight, windowHeight)
         window.setBackground(backGroundColor)
 
         for i in range(boxSize+1, windowWeight+1, boxSize+1):
@@ -23,17 +26,31 @@ class Board:
 
         #MARK: Conteiners
 
-        boxStatus = [0] * (ROWS*COLUMNS) # 0 - empty, 1 - first player, 2 - second player
+        self.boxStatus = [0] * (rows*columns) # 0 - empty, 1 - first player, 2 - second player
 
-        boxCircles = [None] * (ROWS*COLUMNS)
+        self.boxCircles = [None] * (rows*columns)
 
         window.getMouse()
 
 
+    def updateBox(self, coordinateX, coordinateY, status):
+        boxNumber = (coordinateY-1) * columns + coordinateX - 1
 
+        if(boxCircles[boxNumber] == None):
+            boxCircles[boxNumber] = Circle(Point((coordinateX-1)*(boxSize+1) + boxSize//2 + 1, (coordinateY-1)*(boxSize+1 + boxSize//2 + 1)), boxSize//2)
+            if(status == 1):
+                boxCircles[boxNumber].setFill(playerOneColor)
+            else:
+                boxCircles[boxNumber].setFill(playerTwoColor)
+            boxCircles[boxNumber].draw(window)
+        else:
+            boxCircle[boxNumber].undraw(window)
+            boxCircle[boxNumber] = None;
 
 
 
 def main():
     zmienna = Board(9, 10)
+    zmienna.updateBox(2, 2, 1)
+
 main()
