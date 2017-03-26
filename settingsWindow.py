@@ -1,14 +1,21 @@
 from graphics import *
 from staticValues import *
 
-settingsWindow = GraphWin(WIN_TITLE,SETTINGS_WIDTH, SETTINGS_HEIGHT)
+settingsWindow = GraphWin(WIN_TITLE,SETTINGS_WIDTH,SETTINGS_HEIGHT)
+settingsWindow.setBackground("white")
 
-# def drawRectangles(a, b, c=6):
-#    """This function draws c rectangles between points a and b """
-#    dist = abs(a.getX - b.getX) / c
-#
-#    rec = []
-
+def drawRectangles(p1, p2, colors, n=6):
+   """This function draws n coloured rectangles between points p1 and p2 and returns them in a list"""
+   dist = abs(p1.getX() - p2.getX()) / n
+   rec = []
+   x = p1.getX()
+   y1 = p1.getY()
+   y2 = p2.getY()
+   for i in range (n):
+       rec.append(Rectangle(Point(x+dist*i,y1),Point(x+dist*(i+1),y2)))
+       rec[i].setFill(colors[i])
+       rec[i].draw(settingsWindow)
+   return rec
 
 def settingsDraw():
     """This function draws settings layout """
@@ -57,8 +64,9 @@ def settingsDraw():
     aiText2.draw(settingsWindow)
 
     # Color boxes
-    #drawRectangles(Point(SETTINGS_WIDTH*(1/8)), SETTINGS_HEIGHT*(16/20), Point(SETTINGS_WIDTH*(3/8), SETTINGS_HEIGHT*(14/20)))
-    #drawRectangles(Point(SETTINGS_WIDTH*(5/8)), SETTINGS_HEIGHT*(16/20), Point(SETTINGS_WIDTH*(7/8), SETTINGS_HEIGHT*(14/20)))
+    box1 = drawRectangles(Point(SETTINGS_WIDTH*(1/8), SETTINGS_HEIGHT*(16/20)), Point(SETTINGS_WIDTH*(3/8), SETTINGS_HEIGHT*(14/20)),TOKEN_COLOURS)
+    box2 = drawRectangles(Point(SETTINGS_WIDTH*(5/8), SETTINGS_HEIGHT*(16/20)), Point(SETTINGS_WIDTH*(7/8), SETTINGS_HEIGHT*(14/20)),TOKEN_COLOURS)
+
     # "GO!" printing
     go = Text(Point(SETTINGS_WIDTH/2, SETTINGS_HEIGHT*(9/10)), "GO!")
     go.setSize(36)
