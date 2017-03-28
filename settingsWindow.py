@@ -64,8 +64,8 @@ def settingsDraw():
     aiText2.draw(settingsWindow)
 
     # Color boxes
-    box1 = drawRectangles(Point(SETTINGS_WIDTH*(1/8), SETTINGS_HEIGHT*(16/20)), Point(SETTINGS_WIDTH*(3/8), SETTINGS_HEIGHT*(14/20)),TOKEN_COLOURS)
-    box2 = drawRectangles(Point(SETTINGS_WIDTH*(5/8), SETTINGS_HEIGHT*(16/20)), Point(SETTINGS_WIDTH*(7/8), SETTINGS_HEIGHT*(14/20)),TOKEN_COLOURS)
+    box1 = drawRectangles(Point(SETTINGS_WIDTH*(1/8), SETTINGS_HEIGHT*(16/20)), Point(SETTINGS_WIDTH*(3/8), SETTINGS_HEIGHT*(14/20)),TOKEN_COLORS)
+    box2 = drawRectangles(Point(SETTINGS_WIDTH*(5/8), SETTINGS_HEIGHT*(16/20)), Point(SETTINGS_WIDTH*(7/8), SETTINGS_HEIGHT*(14/20)),TOKEN_COLORS)
 
     # "GO!" printing
     go = Text(Point(SETTINGS_WIDTH/2, SETTINGS_HEIGHT*(9/10)), "GO!")

@@ -12,5 +12,5 @@ def gameOver (window, id):
 
     if id == 0:
         print("DRAW")
-    else
+    else:
         print("PLAYER {} HAS WON!".format(id))

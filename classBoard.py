@@ -192,11 +192,12 @@ class Board:
 
 
 # THE DEBUG SECTION
-win = GraphWin("DEBUG", 700, 600)
-win.setCoords(0, 0, 700, 600)
-b = Board(6, 7, win, 600, 700)
-b.draw()
-while not win.isClosed():
-    c = win.getMouse()
-    w = b.checkPosition(c)
-    print(b.update(w, None))
+if __name__ == "__main__":
+    win = GraphWin("DEBUG", 700, 600)
+    win.setCoords(0, 0, 700, 600)
+    b = Board(6, 7, win, 600, 700)
+    b.draw()
+    while not win.isClosed():
+        c = win.getMouse()
+        w = b.checkPosition(c)
+        print(b.update(w, None))
