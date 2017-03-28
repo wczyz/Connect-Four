@@ -13,9 +13,10 @@ def humanStrategy (board):
     while not click:
         click = win.checkMouse()
         where = board.checkPosition(click)
-        if where:
+        if where and board.isValid(where):
             return where;
         else:
             messages.invalidMove(win)
+            click = None
 
     return None;

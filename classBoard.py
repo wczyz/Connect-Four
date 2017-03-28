@@ -1,56 +1,202 @@
+# Board class, representing the game board with all the needed update methods
+
 from graphics import *
+from classPlayer import *
 
 class Board:
 
-    def __init__(self, rows, columns):
-        #MARK: variables
-        
-        self.boxSize = 71
-        self.backgroundColor = "white"
-        self.playerOneColor = "red"
-        self.playerTwoColor = "blue"
-        self.windowWeight = rows*boxSize + rows - 1
-        self.windowHeight = columns*boxSize + columns - 1
+    def __init__ (self, row, col, win, winHeight, winWidth, goal = 4):
+        """Constructor setting the size of the board and a pointer to the game window"""
 
-        #MARK: build window
-        self.window = GraphWin("Connect Four", windowWeight, windowHeight)
-        window.setBackground(backGroundColor)
-
-        for i in range(boxSize+1, windowWeight+1, boxSize+1):
-            yLine = Line(Point(i, 0), Point(i, windowHeight))
-            yLine.draw(window)
-
-        for i in range(boxSize+1, windowHeight+1, boxSize+1):
-            xLine = Line(Point(0, i), Point(windowWeight, i))
-            xLine.draw(window)
-
-        #MARK: Conteiners
-
-        self.boxStatus = [0] * (rows*columns) # 0 - empty, 1 - first player, 2 - second player
-
-        self.boxCircles = [None] * (rows*columns)
-
-        window.getMouse()
+        self.rows = row
+        self.cols = col
+        self.boxSize = winHeight / row
+        self.window = win
+        self.height = winHeight
+        self.width = winWidth
+        self.size = row*col
+        self.goal = goal # The number of tokens in a row needed to win
+        self.status = -1 # It keeps track of whether the game is over or not, -1 being not over and {0, 1, 2} being
+                         #      a draw and the first and second player's win respectively
+        self.tokens = [None for i in range(self.size)] # list of all the tokens as graphical objects
+        self.container = [0 for i in range(self.size)] # List representing the situation on the board,
+                                                       # 0 - no token, 1 - first player, 2 - second player
+        self.columnSize = [0 for i in range(self.cols)] # List containing the number of tokens in each column
 
 
-    def updateBox(self, coordinateX, coordinateY, status):
-        boxNumber = (coordinateY-1) * columns + coordinateX - 1
+    def update (self, where, player):
+        """Method used to update the board according to a given move"""
 
-        if(boxCircles[boxNumber] == None):
-            boxCircles[boxNumber] = Circle(Point((coordinateX-1)*(boxSize+1) + boxSize//2 + 1, (coordinateY-1)*(boxSize+1 + boxSize//2 + 1)), boxSize//2)
-            if(status == 1):
-                boxCircles[boxNumber].setFill(playerOneColor)
-            else:
-                boxCircles[boxNumber].setFill(playerTwoColor)
-            boxCircles[boxNumber].draw(window)
-        else:
-            boxCircle[boxNumber].undraw(window)
-            boxCircle[boxNumber] = None;
+        x = (where % self.cols) * self.boxSize + (self.boxSize / 2)
+        y = (where // self.cols) * self.boxSize + (self.boxSize / 2)
+
+        self.tokens[where] = Circle(Point(x, y), (self.boxSize / 2) - 5)
+        self.tokens[where].setFill(player.tokenColor)
+
+        # TODO: Write an animation loop for the token
+        # while not onTheBottom:
+        #     animation()
+
+        self.statusUpdate(where, player.number)
+        self.columnSize[where % self.cols] += 1
+        self.container[where] = player.number
+        self.tokens[where].draw(self.window)
 
 
 
-def main():
-    zmienna = Board(9, 10)
-    zmienna.updateBox(2, 2, 1)
+    def draw (self):
+        """Method used to draw the grid and all of the tokens"""
 
-main()
+        for token in self.tokens:
+            if token:
+                token.undraw()
+                token.draw(self.window)
+
+        # # Drawing the frame, TODO: Apply some wooden/plastic texture
+        # frame = Rectangle(Point(0, 0), Point(self.width, self.height))
+        # frame.setFill("brown2")
+        # frame.draw(self.window)
+
+        # Drawing the grid
+        # Horizontal lines
+        i = 0
+        while i <= self.height:
+            line = Line(Point(0, i), Point(self.width, i))
+            # line.setWidth(2)
+            line.draw(self.window)
+            i += self.boxSize
+        # Vertical lines
+        i = 0
+        while i <= self.height:
+            line = Line(Point(i, 0), Point(i, self.height))
+            # line.setWidth(2)
+            line.draw(self.window)
+            i += self.boxSize
+
+
+    def checkPosition (self, click):
+        """Method used to define the index in the container list based on the given mouse click coordinates.
+
+        Parameter 'click' is a Point object.
+        It returns the index in a normalized 1D list"""
+
+        if not click:
+            return None;
+
+        x = click.getX() // self.boxSize
+        y = click.getY() // self.boxSize
+
+        return int(y*self.cols + x);
+
+
+    def isValid (self, where):
+        """Method checks if the given move can be performed on this board."""
+
+        x = where % self.cols
+
+        return self.columnSize[x] < self.rows;
+
+
+    def statusUpdate (self, where, pNumber):
+        """Method used to check whether the game is over or not."""
+
+        playerNumber = pNumber
+
+        # Horizontal tokens check
+        a = (where // self.cols) * self.cols
+        b = a + self.cols
+        counter = 1
+        for i in range(where + 1, b):
+            if self.container[i] != playerNumber:
+                break
+            counter += 1
+        for i in range(where - 1, a - 1, -1):
+            if self.container[i] != playerNumber:
+                break
+            counter += 1
+
+        if counter >= self.goal:
+            self.status = playerNumber
+            return;
+
+        # Vertical tokens check
+        a = 0
+        b = self.size
+        counter = 1
+        for i in range(where + 7, b, 7):
+            if self.container[i] != playerNumber:
+                break
+            counter += 1
+        for i in range(where - 7, a - 1, -7):
+            if self.container[i] != playerNumber:
+                break
+            counter += 1
+
+        if counter >= self.goal:
+            self.status = playerNumber
+            return;
+
+        # Diagonal tokens check
+        a = 0
+        b = self.size
+        counter = 1
+        for i in range(where + 6, b, 6):
+            if self.container[i] != playerNumber:
+                break
+            counter += 1
+        for i in range(where - 6, a - 1, -6):
+            if self.container[i] != playerNumber:
+                break
+            counter += 1
+
+        if counter >= self.goal:
+            self.status = playerNumber
+            return;
+
+        counter = 1
+        for i in range(where + 8, b, 8):
+            if self.container[i] != playerNumber:
+                break
+            counter += 1
+        for i in range(where - 8, a - 1, -8):
+            if self.container[i] != playerNumber:
+                break
+            counter += 1
+
+        if counter >= self.goal:
+            self.status = playerNumber
+            return;
+
+        # Check if the given move results in a draw
+        counter = 1
+        for i in self.columnSize:
+            counter += i
+        if counter >= self.size:
+            self.status = 0
+
+
+    def isOver (self):
+        """Method returns True if the game on this board is drawn or won and False otherwise."""
+
+        if self.status == -1:
+            return False;
+
+        return True;
+
+
+    def longestChain (self):
+        """Method returning the longest chain of the same tokens on the board."""
+
+        # TODO: Implement this method and decide whether it should take player's number as a parameter
+        # TODO: or return the longest chain on the board with the number representing to whom it belongs
+
+
+# THE DEBUG SECTION
+win = GraphWin("DEBUG", 700, 600)
+win.setCoords(0, 0, 700, 600)
+b = Board(6, 7, win, 600, 700)
+b.draw()
+while not win.isClosed():
+    c = win.getMouse()
+    w = b.checkPosition(c)
+    print(b.update(w, None))
