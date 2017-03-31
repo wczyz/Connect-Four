@@ -3,6 +3,7 @@ from staticValues import *
 from settingsWindow import *
 from classBoard import *
 from functionHumanStrategy import *
+from functionAiStrategy import *
 from classPlayer import *
 import messages
 
@@ -25,6 +26,9 @@ def main():
         player1.move()
         if board.isOver():
             break
+        #debug
+        print(aiStrategy(board,player1))
+
         player2.move()
         if board.isOver():
             break
