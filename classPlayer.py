@@ -4,7 +4,7 @@ from graphics import *
 
 class Player:
 
-    def __init__ (self, playerNumber, tokenColor, strategy, board):
+    def __init__ (self, playerID, tokenColor, strategy, board):
         """Constructor setting the given color of the player's tokens and theirs strategy.
         It also sets a pointer to the board on which the current game is played.
 
@@ -13,7 +13,7 @@ class Player:
         self.tokenColor = tokenColor
         self.strategy = strategy
         self.board = board
-        self.number = playerNumber
+        self.id = playerID
 
 
     def move (self):

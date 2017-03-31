@@ -2,11 +2,15 @@
 
 from graphics import *
 from classPlayer import *
+import messages
 
 class Board:
 
-    def __init__ (self, row, col, win, winHeight, winWidth, goal = 4):
-        """Constructor setting the size of the board and a pointer to the game window"""
+    def __init__ (self, row, col, win, winWidth, winHeight, goal = 4):
+        """Constructor setting the size of the board and a pointer to the game window along with all other aspects
+        of the game.
+
+        An empty board is created with no tokens on it."""
 
         self.rows = row
         self.cols = col
@@ -37,9 +41,9 @@ class Board:
         # while not onTheBottom:
         #     animation()
 
-        self.statusUpdate(where, player.number)
+        self.statusUpdate(where, player.id)
         self.columnSize[where % self.cols] += 1
-        self.container[where] = player.number
+        self.container[where] = player.id
         self.tokens[where].draw(self.window)
 
 
@@ -84,7 +88,7 @@ class Board:
             return None;
 
         x = click.getX() // self.boxSize
-        y = click.getY() // self.boxSize
+        y = self.columnSize[int(x)]
 
         return int(y*self.cols + x);
 
@@ -97,74 +101,91 @@ class Board:
         return self.columnSize[x] < self.rows;
 
 
-    def statusUpdate (self, where, pNumber):
+    def statusUpdate (self, where, id):
         """Method used to check whether the game is over or not."""
 
-        playerNumber = pNumber
+        playerID = id
 
         # Horizontal tokens check
         a = (where // self.cols) * self.cols
         b = a + self.cols
         counter = 1
         for i in range(where + 1, b):
-            if self.container[i] != playerNumber:
+            if self.container[i] != playerID:
                 break
             counter += 1
         for i in range(where - 1, a - 1, -1):
-            if self.container[i] != playerNumber:
+            if self.container[i] != playerID:
                 break
             counter += 1
 
         if counter >= self.goal:
-            self.status = playerNumber
+            self.status = playerID
             return;
 
         # Vertical tokens check
         a = 0
         b = self.size
         counter = 1
-        for i in range(where + 7, b, 7):
-            if self.container[i] != playerNumber:
+        for i in range(where + self.cols, b, self.cols):
+            if self.container[i] != playerID:
                 break
             counter += 1
-        for i in range(where - 7, a - 1, -7):
-            if self.container[i] != playerNumber:
+        for i in range(where - self.cols, a - 1, -self.cols):
+            if self.container[i] != playerID:
                 break
             counter += 1
 
         if counter >= self.goal:
-            self.status = playerNumber
+            self.status = playerID
             return;
 
         # Diagonal tokens check
-        a = 0
         b = self.size
+        x = int(where % self.cols)
+
         counter = 1
-        for i in range(where + 6, b, 6):
-            if self.container[i] != playerNumber:
+        pos = where + (self.cols - 1)
+        for i in range(x):
+            if pos >= self.size:
                 break
+            if self.container[pos] != playerID:
+                break
+            pos += (self.cols - 1)
             counter += 1
-        for i in range(where - 6, a - 1, -6):
-            if self.container[i] != playerNumber:
+        pos = where - (self.cols - 1)
+        for i in range(self.cols - x - 1):
+            if pos < 0:
                 break
+            if self.container[pos] != playerID:
+                break
+            pos -= (self.cols - 1)
             counter += 1
 
         if counter >= self.goal:
-            self.status = playerNumber
+            self.status = playerID
             return;
 
         counter = 1
-        for i in range(where + 8, b, 8):
-            if self.container[i] != playerNumber:
+        pos = where + (self.cols + 1)
+        for i in range(self.cols - x - 1):
+            if pos >= self.size:
                 break
+            if self.container[pos] != playerID:
+                break
+            pos += (self.cols + 1)
             counter += 1
-        for i in range(where - 8, a - 1, -8):
-            if self.container[i] != playerNumber:
+        pos = where - (self.cols + 1)
+        for i in range(x):
+            if pos < 0:
                 break
+            if self.container[pos] != playerID:
+                break
+            pos -= (self.cols + 1)
             counter += 1
 
         if counter >= self.goal:
-            self.status = playerNumber
+            self.status = playerID
             return;
 
         # Check if the given move results in a draw
@@ -180,6 +201,9 @@ class Board:
 
         if self.status == -1:
             return False;
+
+        messages.gameOver(self.window, self.status)
+        self.window.getMouse()
 
         return True;
 

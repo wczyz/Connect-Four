@@ -11,9 +11,9 @@ def humanStrategy (board):
 
     # waiting for the player to choose where to move
     while not click:
-        click = win.checkMouse()
+        click = win.getMouse()
         where = board.checkPosition(click)
-        if where and board.isValid(where):
+        if where != None and board.isValid(where):
             return where;
         else:
             messages.invalidMove(win)
