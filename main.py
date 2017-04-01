@@ -27,7 +27,7 @@ def main():
         if board.isOver():
             break
         #debug
-        print(aiStrategy(board,player1))
+        print(aiStrategy(board,player1,player2))
 
         player2.move()
         if board.isOver():

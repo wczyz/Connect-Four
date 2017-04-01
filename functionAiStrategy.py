@@ -4,7 +4,7 @@ from staticValues import *
 from classBoard import *
 from classPlayer import *
 
-def aiStrategy(board, player):
+def sumOfPoints(board, player):
 
     points = 0
     #For every free position check how many free tokens are availeable in every direction
@@ -134,3 +134,6 @@ def aiStrategy(board, player):
             points += EVALUATION[min(a,3)]
 
     return points
+
+def aiStrategy(board, player1, player2):
+    return sumOfPoints(board,player1) - sumOfPoints(board,player2)
