@@ -28,11 +28,12 @@ class Board:
         self.columnSize = [0 for i in range(self.cols)] # List containing the number of tokens in each column
 
 
-    def update (self, where, player):
+    def update (self, move, player):
         """Method used to update the board according to a given move"""
 
-        x = (where % self.cols) * self.boxSize + (self.boxSize / 2)
-        y = (where // self.cols) * self.boxSize + (self.boxSize / 2)
+        where = move + self.columnSize[move]*self.cols
+        x = move * self.boxSize + (self.boxSize / 2)
+        y = self.columnSize[move] * self.boxSize + (self.boxSize / 2)
 
         self.tokens[where] = Circle(Point(x, y), (self.boxSize / 2) - 5)
         self.tokens[where].setFill(player.tokenColor)
@@ -42,7 +43,7 @@ class Board:
         #     animation()
 
         self.statusUpdate(where, player.id)
-        self.columnSize[where % self.cols] += 1
+        self.columnSize[move] += 1
         self.container[where] = player.id
         self.tokens[where].draw(self.window)
 
@@ -71,7 +72,7 @@ class Board:
             i += self.boxSize
         # Vertical lines
         i = 0
-        while i <= self.height:
+        while i <= self.width:
             line = Line(Point(i, 0), Point(i, self.height))
             # line.setWidth(2)
             line.draw(self.window)
@@ -90,7 +91,7 @@ class Board:
         x = click.getX() // self.boxSize
         y = self.columnSize[int(x)]
 
-        return int(y*self.cols + x);
+        return int(x);
 
 
     def isValid (self, where):

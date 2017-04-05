@@ -3,6 +3,7 @@ from staticValues import *
 from settingsWindow import *
 from classBoard import *
 from functionHumanStrategy import *
+from functionAiStrategy import *
 from functionEvaluation import *
 from classPlayer import *
 import messages
@@ -13,14 +14,21 @@ def main():
     # while not settingsWindow.isClosed():
     #     settingsDraw()
 
-    # Testing for the two human players
+    # Temporary input
+    rows = int(input("rows: "))
+    cols = int(input("columns: "))
+
+    # Testing the gameplay
     # TODO: Set the player type according to the decisions made in settingsWindow
-    gameWindow = GraphWin("Connect Four", 700, 600)
-    gameWindow.setCoords(0, 0, 700, 600)
-    board = Board(6, 7, gameWindow, 700, 600)
+    width = min(cols*100, MAX_WIDTH)
+    height = (width / cols) * rows
+    gameWindow = GraphWin("Connect Four", width, height)
+    gameWindow.setBackground("white")
+    gameWindow.setCoords(0, 0, width, height)
+    board = Board(rows, cols, gameWindow, width, height)
     board.draw()
-    player1 = Player(1, "red", humanStrategy, board)
-    player2 = Player(2, "blue", humanStrategy, board)
+    player1 = Player(1, "red", aiStrategy, board)
+    player2 = Player(2, "blue", aiStrategy, board)
     while not gameWindow.isClosed():
         # TODO: Maybe move the isOver check to the move() function
         player1.move()

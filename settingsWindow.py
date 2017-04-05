@@ -1,8 +1,8 @@
 from graphics import *
 from staticValues import *
 
-settingsWindow = GraphWin(WIN_TITLE,SETTINGS_WIDTH,SETTINGS_HEIGHT)
-settingsWindow.setBackground("white")
+# settingsWindow = GraphWin(WIN_TITLE,SETTINGS_WIDTH,SETTINGS_HEIGHT)
+# settingsWindow.setBackground("white")
 
 def drawRectangles(p1, p2, colors, n=6):
    """This function draws n coloured rectangles between points p1 and p2 and returns them in a list"""
