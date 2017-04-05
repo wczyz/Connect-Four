@@ -27,15 +27,13 @@ def main():
     gameWindow.setCoords(0, 0, width, height)
     board = Board(rows, cols, gameWindow, width, height)
     board.draw()
-    player1 = Player(1, "red", aiStrategy, board)
+    player1 = Player(1, "red", humanStrategy, board)
     player2 = Player(2, "blue", aiStrategy, board)
     while not gameWindow.isClosed():
         # TODO: Maybe move the isOver check to the move() function
         player1.move()
         if board.isOver():
             break
-        #debug
-        print(evaluation(board))
 
         player2.move()
         if board.isOver():

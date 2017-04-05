@@ -3,14 +3,12 @@
 from staticValues import *
 from classBoard import *
 from classPlayer import *
+from functionMinimax import *
 import random
 
-def aiStrategy (board):
+def aiStrategy (board, id):
     """The function for performing the computer player's move"""
 
-    move = random.randint(0, board.cols - 1)
-
-    while not board.isValid(move):
-        move = random.randint(0, board.cols - 1)
+    move = minimaxSearch(board, id)
 
     return move;

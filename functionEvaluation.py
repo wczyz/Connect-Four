@@ -1,4 +1,4 @@
-#Function used by the AI player object to perform a move
+# Function used to evaluate some given state of the board
 
 from staticValues import *
 from classBoard import *

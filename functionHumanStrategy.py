@@ -3,7 +3,7 @@
 from graphics import *
 import messages
 
-def humanStrategy (board):
+def humanStrategy (board, id):
     """The function for performing the human player's move"""
 
     win = board.window

@@ -3,6 +3,7 @@
 from graphics import *
 from classPlayer import *
 import messages
+import copy
 
 class Board:
 
@@ -207,6 +208,29 @@ class Board:
         self.window.getMouse()
 
         return True;
+
+
+    def generateMove (self, move, id):
+        """Method used to add a valid move to the container without visualizing it."""
+
+        where = move + self.columnSize[move] * self.cols
+
+        self.statusUpdate(where, id)
+        self.columnSize[move] += 1
+        self.container[where] = id
+
+
+    def __copy__ (self):
+        """Method returning a deep copy of the board object."""
+
+        copyObject = Board(self.rows, self.cols, self.window, self.width, self.height, self.goal)
+        copyObject.status = copy.copy(self.status)
+
+        copyObject.container = copy.copy(self.container)
+        copyObject.tokens = copy.copy(self.tokens)
+        copyObject.columnSize = copy.copy(self.columnSize)
+
+        return copyObject;
 
 
     def longestChain (self):
