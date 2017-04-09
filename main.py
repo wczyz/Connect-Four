@@ -11,15 +11,14 @@ import messages
 def main():
     """This is the main function"""
 
-    # while not settingsWindow.isClosed():
-    #     settingsDraw()
+    playerOneStrategy, playerOneColor, playerTwoStrategy, playerTwoColor = settingsDraw()
 
     # Temporary input
     rows = int(input("rows: "))
     cols = int(input("columns: "))
 
     # Testing the gameplay
-    # TODO: Set the player type according to the decisions made in settingsWindow
+
     width = min(cols*100, MAX_WIDTH)
     height = (width / cols) * rows
     gameWindow = GraphWin("Connect Four", width, height)
@@ -27,8 +26,8 @@ def main():
     gameWindow.setCoords(0, 0, width, height)
     board = Board(rows, cols, gameWindow, width, height)
     board.draw()
-    player1 = Player(1, "red", humanStrategy, board)
-    player2 = Player(2, "blue", aiStrategy, board)
+    player1 = Player(1, playerOneColor, playerOneStrategy, board)
+    player2 = Player(2, playerTwoColor, playerTwoStrategy, board)
     while not gameWindow.isClosed():
         # TODO: Maybe move the isOver check to the move() function
         player1.move()
