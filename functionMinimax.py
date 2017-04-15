@@ -43,7 +43,6 @@ def search (node, depth, playerID):
             move = copy.copy(node)
             move.generateMove(i, playerID + 1)
             childValue = search(move, depth + 1, (playerID + 1) % 2)
-            childValue = (childValue[0], i)
-            nodeValue = compare(nodeValue, childValue)
+            nodeValue = (compare(nodeValue[0], childValue[0]), i)
 
     return nodeValue
