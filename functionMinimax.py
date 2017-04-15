@@ -46,4 +46,4 @@ def search (node, depth, playerID):
             childValue = (childValue[0], i)
             nodeValue = compare(nodeValue, childValue)
 
-    return nodeValue;
+    return nodeValue

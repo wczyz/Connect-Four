@@ -21,8 +21,6 @@ class Player:
 
         whereToMove = self.strategy(self.board, self.id)
 
-        # debug
-        print(whereToMove)
 
         # Updating the board
         self.board.update(whereToMove, self)

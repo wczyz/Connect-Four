@@ -4,134 +4,84 @@ from staticValues import *
 from classBoard import *
 from classPlayer import *
 
+def isThere(board,x,y,player):
+    """This function states whether player's token is at position (x,y)."""
+    if(board.container[y*board.cols+x] == player):
+        return True
+    else:
+        return False
+
 def sumOfPoints(board, player):
 
     points = 0
-    #For every free position check how many free tokens are availeable in every direction
+
+    #Vertically
+
     for i in range(board.cols):
-        y = board.columnSize[i]
-        x = i
-        if(y < board.rows):
-            #horizontally
-            a = 0
-            for j in range(1,board.goal):
-                x+=1
-                if(x>=board.cols):
-                    break
-                if(board.container[y*board.cols + x] == player):
-                    a+=1
-                else:
-                    break
+        a = 0
+        for j in range(board.rows):
+            if(isThere(board,i,j,player)):
+                a+=1
+            else:
+                points+=EVALUATION[min(a,board.goal)]
+                a = 0
+        points+=EVALUATION[min(a,board.goal)]
 
-            x = i
+    #Horizontally
 
-            for j in range(1,board.goal):
-                x-=1
-                if(x<0):
-                    break
-                if(board.container[y*board.cols + x] == player):
-                    a+=1
-                else:
-                    break
+    for i in range(board.rows):
+        a = 0
+        for j in range(board.cols):
+            if(isThere(board,j,i,player)):
+                a+=1
+            else:
+                points+=EVALUATION[min(a,board.goal)]
+                a=0
+            points+=EVALUATION[min(a,board.goal)]
 
-            #print("Horizontally: " + str(a))
+    #Diagonally 1
 
-            points += EVALUATION[min(a,3)]
+    for i in range(board.rows-1,0,-1):
+        a = 0
+        for j in range(board.rows-i):
+            if(isThere(board,j,i+j,player)):
+                a+=1
+            else:
+                points+=EVALUATION[min(a,board.goal)]
+                a=0
+            points+=EVALUATION[min(a,board.goal)]
 
-            x = i
+    for i in range(board.cols):
+        a = 0
+        for j in range(min(board.rows,board.cols-i)):
+            if(isThere(board,i+j,j,player)):
+                a+=1
+            else:
+                points+=EVALUATION[min(a,board.goal)]
+                a=0
+            points+=EVALUATION[min(a,board.goal)]
 
-            #vertically
-            a=0
-            for j in range(1,board.goal):
-                y+=1
-                if(y>=board.rows):
-                    break
-                if(board.container[y*board.cols + x] == player):
-                    a+=1
-                else:
-                    break
+    #Diagonally 2
 
-            y = board.columnSize[i]
+    for i in range(board.cols):
+        a = 0
+        for j in range(min(board.rows,i+1)):
+            if(isThere(board,i-j,j,player)):
+                a+=1
+            else:
+                points+=EVALUATION[min(a,board.goal)]
+                a=0
+            points+=EVALUATION[min(a,board.goal)]
 
-            for j in range(1,board.goal):
-                y-=1
-                if(y<0):
-                    break
-                if(board.container[y*board.cols + x] == player):
-                    a+=1
-                else:
-                    break
-
-            y = board.columnSize[i]
-
-            #print("Vertically " + str(a))
-
-            points += EVALUATION[min(a,3)]
-
-            #diagonally 1
-            a=0
-            x = i
-            y = board.columnSize[i]
-
-            for j in range(1,board.goal):
-                x+=1
-                y+=1
-                if(x>=board.cols or y>=board.rows):
-                    break
-                if(board.container[y*board.cols + x] == player):
-                    a+=1
-                else:
-                    break
-
-            x = i
-            y = board.columnSize[i]
-
-            for j in range(1,board.goal):
-                x-=1
-                y-=1
-                if(x<0 or y<0):
-                    break
-                if(board.container[y*board.cols + x] == player):
-                    a+=1
-                else:
-                    break
-
-            #print("Diagonally1: " + str(a))
-
-            points += EVALUATION[min(a,3)]
-
-            #diagonally 2
-            a=0
-
-            x = i
-            y = board.columnSize[i]
-
-            for j in range(1,board.goal):
-                x-=1
-                y+=1
-                if(x<0 or y>=board.rows):
-                    break
-                if(board.container[y*board.cols + x] == player):
-                    a+=1
-                else:
-                    break
-
-            x = i
-            y = board.columnSize[i]
-
-            for i in range(1,board.goal):
-                x+=1
-                y-=1
-                if(x>=board.cols or y<0):
-                    break
-                if(board.container[y*board.cols + x] == player):
-                    a+=1
-                else:
-                    break
-
-            #print("Diagonally2: " + str(a))
-
-            points += EVALUATION[min(a,3)]
+    for i in range(1,board.rows):
+        a = 0
+        for j in range(board.rows-i):
+            if(isThere(board,board.cols-1-j,i+j,player)):
+                a+=1
+            else:
+                points+=EVALUATION[min(a,board.goal)]
+                a=0
+            points+=EVALUATION[min(a,board.goal)]
 
     return points
 
