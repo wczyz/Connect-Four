@@ -28,6 +28,8 @@ def main():
     board.draw()
     player1 = Player(1, playerOneColor, playerOneStrategy, board)
     player2 = Player(2, playerTwoColor, playerTwoStrategy, board)
+
+    # Actual game
     while not gameWindow.isClosed():
         # TODO: Maybe move the isOver check to the move() function
         player1.move()
