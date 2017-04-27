@@ -26,12 +26,12 @@ def search (node, depth, playerID):
     """A DFS function used to move around the game tree"""
 
     if playerID % 2 == 0:
-        nodeValue = (-float("inf"), None)
+        nodeValue = (-float("inf"), -node.cols)
     else:
-        nodeValue = (float("inf"), None)
+        nodeValue = (float("inf"), node.cols)
 
     if depth == MAX_DEPTH:
-        nodeValue = (evaluation(node), None)
+        nodeValue = (evaluation(node), nodeValue[1])
         return nodeValue;
 
     # Decide whether it's a maximizer's turn or minimizer's
@@ -43,6 +43,7 @@ def search (node, depth, playerID):
             move = copy.copy(node)
             move.generateMove(i, playerID + 1)
             childValue = search(move, depth + 1, (playerID + 1) % 2)
-            nodeValue = (compare(nodeValue[0], childValue[0]), i)
+            childValue = (childValue[0], i)
+            nodeValue = compare(nodeValue, childValue)
 
     return nodeValue
