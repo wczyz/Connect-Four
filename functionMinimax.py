@@ -1,6 +1,7 @@
 # The function used to perform the minimax search for the AI's strategy.
 # Right now the depth of the minimax is constant but eventually progressive deepening will be added.
-# TODO: Add alpha-beta prunning and progressive deepening
+# Alpha-beta pruning has been implemented to reduce the number of branches checked in the tree
+# TODO: Add progressive deepening and some way of sorting the child nodes
 
 from staticValues import *
 from classBoard import *
@@ -17,12 +18,12 @@ def minimaxSearch (board, id):
     # This is the position the player is presented with
     start = board
 
-    bestMove = search(start, 0, id - 1)
+    bestMove = search(start, 0, id - 1, -float("inf"), float("inf"))
 
     return bestMove[1];
 
 
-def search (node, depth, playerID):
+def search (node, depth, playerID, alpha, beta):
     """A DFS function used to move around the game tree"""
 
     if playerID % 2 == 0:
@@ -42,8 +43,18 @@ def search (node, depth, playerID):
         if node.isValid(i):
             move = copy.copy(node)
             move.generateMove(i, playerID + 1)
-            childValue = search(move, depth + 1, (playerID + 1) % 2)
+            childValue = search(move, depth + 1, (playerID + 1) % 2, alpha, beta)
             childValue = (childValue[0], i)
             nodeValue = compare(nodeValue, childValue)
+
+            # Updating the alpha-beta guards
+            if playerID % 2 == 0:
+                alpha = compare(alpha, nodeValue[0])
+            else:
+                beta = compare(beta, nodeValue[0])
+
+            # Checking if possible to prune
+            if beta <= alpha:
+                break
 
     return nodeValue
