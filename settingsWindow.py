@@ -24,42 +24,57 @@ def settingsDraw():
     title.draw(settingsWindow)
 
     # "Player1" and "Player2" printing
-    playerOneText = Text(Point(SETTINGS_WIDTH/4, SETTINGS_HEIGHT*(3/10)), "PLAYER 1")
+    playerOneText = Text(Point(SETTINGS_WIDTH/4, SETTINGS_HEIGHT*(2/10)), "PLAYER 1")
     playerOneText.setSize(18)
     playerOneText.draw(settingsWindow)
     playerOneText.setFill(playerOneColor)
 
-    playerTwoText = Text(Point(SETTINGS_WIDTH*(3/4), SETTINGS_HEIGHT*(3/10)), "PLAYER 2")
+    playerTwoText = Text(Point(SETTINGS_WIDTH*(3/4), SETTINGS_HEIGHT*(2/10)), "PLAYER 2")
     playerTwoText.setSize(18)
     playerTwoText.draw(settingsWindow)
     playerTwoText.setFill(playerTwoColor)
 
     # "AI" and "H" buttons
-    circle1 = circleButton(Point(SETTINGS_WIDTH*(3/16), SETTINGS_HEIGHT*(1/2)), SETTINGS_WIDTH*(1/20))
+    circle1 = circleButton(Point(SETTINGS_WIDTH*(3/16), SETTINGS_HEIGHT*(6/20)), SETTINGS_WIDTH*(1/20))
     circle1.draw(settingsWindow)
     circle1.setFill(playerOneColor)
     circle1.setText("H")
 
-    circle2 = circleButton(Point(SETTINGS_WIDTH*(5/16), SETTINGS_HEIGHT*(1/2)), SETTINGS_WIDTH*(1/20))
+    circle2 = circleButton(Point(SETTINGS_WIDTH*(5/16), SETTINGS_HEIGHT*(6/20)), SETTINGS_WIDTH*(1/20))
     circle2.draw(settingsWindow)
     circle2.setText("AI")
 
 
-    circle3 = circleButton(Point(SETTINGS_WIDTH*(11/16), SETTINGS_HEIGHT*(1/2)), SETTINGS_WIDTH*(1/20))
+    circle3 = circleButton(Point(SETTINGS_WIDTH*(11/16), SETTINGS_HEIGHT*(6/20)), SETTINGS_WIDTH*(1/20))
     circle3.draw(settingsWindow)
     circle3.setText("H")
 
-    circle4 = circleButton(Point(SETTINGS_WIDTH*(13/16), SETTINGS_HEIGHT*(1/2)), SETTINGS_WIDTH*(1/20))
+    circle4 = circleButton(Point(SETTINGS_WIDTH*(13/16), SETTINGS_HEIGHT*(6/20)), SETTINGS_WIDTH*(1/20))
     circle4.draw(settingsWindow)
     circle4.setFill(playerTwoColor)
     circle4.setText("AI")
 
-    # Color boxes
-    box1 = drawRecButtons(Point(SETTINGS_WIDTH*(1/8), SETTINGS_HEIGHT*(16/20)), Point(SETTINGS_WIDTH*(3/8), SETTINGS_HEIGHT*(14/20)),TOKEN_COLORS)
-    box2 = drawRecButtons(Point(SETTINGS_WIDTH*(5/8), SETTINGS_HEIGHT*(16/20)), Point(SETTINGS_WIDTH*(7/8), SETTINGS_HEIGHT*(14/20)),TOKEN_COLORS)
+    # printing color boxes
+    box1 = drawRecButtons(Point(SETTINGS_WIDTH*(1/8), SETTINGS_HEIGHT*(5/10)), Point(SETTINGS_WIDTH*(3/8), SETTINGS_HEIGHT*(4/10)),TOKEN_COLORS)
+    box2 = drawRecButtons(Point(SETTINGS_WIDTH*(5/8), SETTINGS_HEIGHT*(5/10)), Point(SETTINGS_WIDTH*(7/8), SETTINGS_HEIGHT*(4/10)),TOKEN_COLORS)
+
+    # printing input boxes with text
+    # TODO: set maximal and minimal values for rows and cols?
+
+    rows_entry = Entry(Point(SETTINGS_WIDTH*(55/100),SETTINGS_HEIGHT*(6/10)),2)
+    rows_entry.setText(DEFAULT_ROWS)
+    rows_entry.draw(settingsWindow)
+    rows_text = Text(Point(SETTINGS_WIDTH*(49/100),SETTINGS_HEIGHT*(6/10)), "Number of rows:")
+    rows_text.draw(settingsWindow)
+
+    cols_entry = Entry(Point(SETTINGS_WIDTH * (55/100), SETTINGS_HEIGHT * (13 / 20)), 2)
+    cols_entry.setText(DEFAULT_COLS)
+    cols_entry.draw(settingsWindow)
+    cols_text = Text(Point(SETTINGS_WIDTH * (49 / 100), SETTINGS_HEIGHT * (13 / 20)), "Number of cols:")
+    cols_text.draw(settingsWindow)
 
     # "Play button" printing
-    play = recButton(Point(SETTINGS_WIDTH*(7/16), SETTINGS_HEIGHT*(17/20)),Point(SETTINGS_WIDTH*(9/16), SETTINGS_HEIGHT*(19/20)))
+    play = recButton(Point(SETTINGS_WIDTH*(7/16), SETTINGS_HEIGHT*(15/20)),Point(SETTINGS_WIDTH*(9/16), SETTINGS_HEIGHT*(17/20)))
     play.draw(settingsWindow)
     play.setFill("dark orange")
     tri = Polygon(Point(play.x1+play.width/3,play.y1+play.height/5),Point(play.x1+play.width/3,play.y1+play.height*(4/5)),Point(play.x1+play.width*(2/3),play.y1+play.height/2))
@@ -112,9 +127,11 @@ def settingsDraw():
                         circle4.setFill(i.color)
 
         if(play.isClicked(click)):
+            rows = int(rows_entry.getText())
+            cols = int(cols_entry.getText())
             settingsWindow.close()
 
-    return(playerOneStrategy,playerOneColor,playerTwoStrategy,playerTwoColor)
+    return(playerOneStrategy, playerOneColor, playerTwoStrategy, playerTwoColor, rows, cols)
 
 
 

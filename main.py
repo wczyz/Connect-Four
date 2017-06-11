@@ -11,12 +11,12 @@ import messages
 def main():
     """This is the main function"""
 
-    playerOneStrategy, playerOneColor, playerTwoStrategy, playerTwoColor = settingsDraw()
+    playerOneStrategy, playerOneColor, playerTwoStrategy, playerTwoColor, rows, cols = settingsDraw()
 
-    # Temporary input
+    """ Temporary input
     rows = int(input("rows: "))
     cols = int(input("columns: "))
-
+    """
     # Testing the gameplay
 
     width = min(cols*100, MAX_WIDTH)

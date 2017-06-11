@@ -1,6 +1,8 @@
 WIN_TITLE = "Connect Four"
 SETTINGS_WIDTH = 1200
 SETTINGS_HEIGHT = 800
+DEFAULT_ROWS = 6
+DEFAULT_COLS = 7
 MAX_WIDTH = 1080 # maximum width of the game window
 # MAX_HEIGHT = 800
 TOKEN_COLORS = ('crimson','midnight blue','royal blue','olive','lime green','goldenrod')
