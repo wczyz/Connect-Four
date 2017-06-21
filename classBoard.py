@@ -36,17 +36,21 @@ class Board:
         x = move * self.boxSize + (self.boxSize / 2)
         y = self.columnSize[move] * self.boxSize + (self.boxSize / 2)
 
-        self.tokens[where] = Circle(Point(x, y), (self.boxSize / 2) - 5)
+        self.tokens[where] = Circle(Point(x, self.height), (self.boxSize / 2) - 5) #the token is drawn at the top, and then moved to the desired position in the animation loop
         self.tokens[where].setFill(player.tokenColor)
+        self.tokens[where].draw(self.window)
 
-        # TODO: Write an animation loop for the token
-        # while not onTheBottom:
-        #     animation()
+        #animation loop
+        temp_y = self.height
+        while not (temp_y==y):
+            self.tokens[where].move(0,-2)
+            temp_y-=2
+            update(600)
 
         self.statusUpdate(where, player.id)
         self.columnSize[move] += 1
         self.container[where] = player.id
-        self.tokens[where].draw(self.window)
+
 
 
 

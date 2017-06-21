@@ -203,7 +203,7 @@ class circleButton:
 
         if not click:
             return None
-        d = dist(click,self.center)
+        d = dist(click, self.center)
         if(d<self.r):
             return True
         else:
@@ -237,7 +237,7 @@ class recButton:
         self.color = color
         self.rec.setFill(self.color)
 
-    def isClicked(self,click):
+    def isClicked(self, click):
         """Method returns True if the button was recently clicked"""
 
         if not click:
