@@ -41,11 +41,14 @@ class Board:
         self.tokens[where].draw(self.window)
 
         #animation loop
-        temp_y = self.height
+        temp_y = self.height #keeps track of where the token currently is
+        self.window.autoflush = False
         while not (temp_y==y):
-            self.tokens[where].move(0,-2)
-            temp_y-=2
-            update(600)
+            self.tokens[where].move(0,-10)
+            temp_y-=10
+            update(60)
+        self.window.autoflush = True
+
 
         self.statusUpdate(where, player.id)
         self.columnSize[move] += 1
