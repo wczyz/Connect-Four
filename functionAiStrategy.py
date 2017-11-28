@@ -9,6 +9,4 @@ import random
 def aiStrategy (board, id):
     """The function for performing the computer player's move"""
 
-    move = minimaxSearch(board, id)
-
-    return move;
+    return minimaxSearch(board, id);

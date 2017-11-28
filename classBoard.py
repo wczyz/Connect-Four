@@ -205,14 +205,15 @@ class Board:
             self.status = 0
 
 
-    def isOver (self):
+    def isOver (self, simulated = False):
         """Method returns True if the game on this board is drawn or won and False otherwise."""
 
         if self.status == -1:
             return False;
 
-        messages.gameOver(self.window, self.status)
-        self.window.getMouse()
+        if simulated == False:
+            messages.gameOver(self.window, self.status)
+            self.window.getMouse()
 
         return True;
 

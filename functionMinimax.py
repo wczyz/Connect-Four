@@ -20,6 +20,7 @@ def minimaxSearch (board, id):
 
     bestMove = search(start, 0, id - 1, -float("inf"), float("inf"))
 
+    # print(bestMove)
     return bestMove[1];
 
 
@@ -31,8 +32,8 @@ def search (node, depth, playerID, alpha, beta):
     else:
         nodeValue = (float("inf"), node.cols)
 
-    if depth == MAX_DEPTH:
-        nodeValue = (evaluation(node), nodeValue[1])
+    if depth == MAX_DEPTH or node.isOver(True):
+        nodeValue = (evaluation(node, depth), nodeValue[1])
         return nodeValue;
 
     # Decide whether it's a maximizer's turn or minimizer's
